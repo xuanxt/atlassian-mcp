@@ -213,19 +213,7 @@ atlassian-mcp --domain your-domain.atlassian.net \
 
 #### Using NPM Package (Recommended)
 
-**Default config file (`~/.atlassian-mcp.json`):**
-```json
-{
-  "mcpServers": {
-    "atlassian": {
-      "command": "npx",
-      "args": ["-y", "@xuandev/atlassian-mcp"]
-    }
-  }
-}
-```
-
-**Custom config file path:**
+**With config file (relative path):**
 ```json
 {
   "mcpServers": {
@@ -235,25 +223,25 @@ atlassian-mcp --domain your-domain.atlassian.net \
         "-y",
         "@xuandev/atlassian-mcp",
         "--config",
-        "/absolute/path/to/.atlassian-mcp.json"
+        ".atlassian-mcp.json"
       ]
     }
   }
 }
 ```
 
-**Workspace-specific config:**
+**With environment variables:**
 ```json
 {
   "mcpServers": {
     "atlassian": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@xuandev/atlassian-mcp",
-        "--config",
-        "${workspaceFolder}/.atlassian-mcp.json"
-      ]
+      "args": ["-y", "@xuandev/atlassian-mcp"],
+      "env": {
+        "ATLASSIAN_DOMAIN": "your-domain.atlassian.net",
+        "ATLASSIAN_EMAIL": "your-email@example.com",
+        "ATLASSIAN_API_TOKEN": "your-api-token"
+      }
     }
   }
 }
@@ -261,7 +249,7 @@ atlassian-mcp --domain your-domain.atlassian.net \
 
 #### Using Docker Container
 
-**With config file mount:**
+**With config file (relative path):**
 ```json
 {
   "mcpServers": {
@@ -272,26 +260,7 @@ atlassian-mcp --domain your-domain.atlassian.net \
         "-i",
         "--rm",
         "-v",
-        "/absolute/path/to/.atlassian-mcp.json:/config/.atlassian-mcp.json:ro",
-        "xuanxdev/atlassian-mcp:latest"
-      ]
-    }
-  }
-}
-```
-
-**With workspace folder:**
-```json
-{
-  "mcpServers": {
-    "atlassian": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "${workspaceFolder}/.atlassian-mcp.json:/config/.atlassian-mcp.json:ro",
+        ".atlassian-mcp.json:/config/.atlassian-mcp.json:ro",
         "xuanxdev/atlassian-mcp:latest"
       ]
     }
