@@ -1,5 +1,11 @@
 # Atlassian MCP Server
 
+[![npm version](https://img.shields.io/npm/v/@xuandev/atlassian-mcp.svg)](https://www.npmjs.com/package/@xuandev/atlassian-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/@xuandev/atlassian-mcp.svg)](https://www.npmjs.com/package/@xuandev/atlassian-mcp)
+[![Docker Image](https://img.shields.io/docker/v/xuanxdev/atlassian-mcp?label=docker)](https://hub.docker.com/r/xuanxdev/atlassian-mcp)
+[![Docker Pulls](https://img.shields.io/docker/pulls/xuanxdev/atlassian-mcp)](https://hub.docker.com/r/xuanxdev/atlassian-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Model Context Protocol (MCP) server for Atlassian Confluence and Jira Cloud. Provides 51 tools to manage Confluence pages, Jira issues, sprints, boards, and backlogs. Supports NPM package and Docker deployment with flexible authentication.
 
 ## Overview
