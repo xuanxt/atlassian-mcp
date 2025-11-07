@@ -1,0 +1,31 @@
+# Development files
+.env
+.env.*
+!.env.example
+
+# Tests
+**/*.test.ts
+**/*.test.js
+
+# Development tools
+.biomejs/
+.vscode/
+.idea/
+.claude/
+
+# Git
+.git/
+.gitignore
+
+# Build artifacts
+dist/
+*.tsbuildinfo
+coverage/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
