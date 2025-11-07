@@ -183,7 +183,7 @@ describe("Jira Extended API - Agile/Scrum Features", () => {
         testData.sprintId = firstSprint?.id;
         console.log(`  Using sprint: ${firstSprint?.name} (ID: ${testData.sprintId})`);
       }
-    } catch (error) {
+    } catch (_error) {
       console.log("⊘ Skipping: Board does not support sprints (likely a Kanban board)");
       console.log("  Note: Sprint features require a Scrum board");
     }
@@ -230,7 +230,7 @@ describe("Jira Extended API - Agile/Scrum Features", () => {
 
       // Clean up: Try to delete the sprint (note: may not be possible depending on sprint state)
       console.log(`  Note: Sprint ${typedResult.id} created for testing, may need manual cleanup`);
-    } catch (error) {
+    } catch (_error) {
       console.log("⊘ Skipping: Board does not support sprint creation (likely a Kanban board)");
       console.log("  Note: Sprint features require a Scrum board");
     }
@@ -261,7 +261,7 @@ describe("Jira Extended API - Agile/Scrum Features", () => {
         testData.backlogIssueKeys = typedResult.issues.slice(0, 2).map((issue) => issue.key);
         console.log(`  Sample backlog issues: ${testData.backlogIssueKeys.join(", ")}`);
       }
-    } catch (error) {
+    } catch (_error) {
       console.log("⊘ Skipping: Board does not support backlog (likely a Kanban board)");
     }
   });

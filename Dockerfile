@@ -57,10 +57,17 @@ ENTRYPOINT ["/app/docker-entrypoint.sh"]
 # Default command (show help if no args provided)
 CMD []
 
+# Build arguments for dynamic metadata
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
 # Metadata
 LABEL org.opencontainers.image.title="Atlassian MCP Server"
 LABEL org.opencontainers.image.description="Model Context Protocol server for Atlassian Confluence and Jira Cloud APIs"
-LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.version="${VERSION}"
 LABEL org.opencontainers.image.authors="Atlassian MCP Contributors"
 LABEL org.opencontainers.image.source="https://github.com/xuanxt/atlassian-mcp"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
+LABEL org.opencontainers.image.revision="${VCS_REF}"
