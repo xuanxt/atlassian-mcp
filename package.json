@@ -2,7 +2,8 @@
   "name": "@xuandev/atlassian-mcp",
   "version": "1.0.4",
   "description": "MCP server for Atlassian Confluence and Jira Cloud APIs",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "author": "",
   "license": "MIT",
@@ -17,23 +18,27 @@
   "scripts": {
     "start": "node --import tsx src/index.ts",
     "dev": "bun run src/index.ts",
+    "build": "bun run clean && tsc -p tsconfig.build.json && chmod +x dist/index.js",
+    "clean": "rm -rf dist",
     "test": "bun test",
     "test:unit": "bun test src/common/config.test.ts",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "check": "biome check --write .",
-    "prepublishOnly": "bun run check && bun run test:unit",
+    "prepublishOnly": "bun run check && bun run test:unit && bun run build",
     "release:patch": "npm version patch -m 'chore: release v%s'",
     "release:minor": "npm version minor -m 'chore: release v%s'",
     "release:major": "npm version major -m 'chore: release v%s'"
   },
   "bin": {
-    "atlassian-mcp": "./src/index.ts"
+    "atlassian-mcp": "./dist/index.js"
   },
   "files": [
-    "src/**/*.ts",
-    "src/**/*.js",
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "dist/**/*.js.map",
     "README.md",
     ".env.example",
     ".atlassian-mcp.json.example"

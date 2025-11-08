@@ -23,9 +23,9 @@ if [ "$has_config_arg" = "false" ] && \
    [ -z "$ATLASSIAN_API_TOKEN" ]; then
 
     if [ -f "$CONFIG_FILE" ]; then
-        exec bun run /app/src/index.ts --config "$CONFIG_FILE" "$@"
+        exec node /app/dist/index.js --config "$CONFIG_FILE" "$@"
     fi
 fi
 
 # Otherwise, use provided arguments
-exec bun run /app/src/index.ts "$@"
+exec node /app/dist/index.js "$@"

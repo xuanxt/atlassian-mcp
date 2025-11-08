@@ -9,25 +9,32 @@ WORKDIR /app
 # Copy package files
 COPY package.json bun.lockb* ./
 
-# Install dependencies
-RUN bun install --frozen-lockfile --production
+# Install dependencies (including devDependencies for build)
+RUN bun install --frozen-lockfile
 
-# Copy source code
+# Copy source code and build configuration
 COPY src ./src
-COPY tsconfig.json* ./
+COPY tsconfig.json tsconfig.build.json ./
+
+# Build TypeScript to JavaScript
+RUN bun run build
 
 # Stage 2: Runtime image
 FROM oven/bun:1.3-alpine AS runtime
 
 WORKDIR /app
 
-# Install Node.js for tsx compatibility (required by MCP SDK)
+# Install Node.js for compatibility (required by MCP SDK)
 RUN apk add --no-cache nodejs
 
-# Copy dependencies and source from builder
-COPY --from=builder /app/node_modules ./node_modules
+# Copy package.json first
 COPY --from=builder /app/package.json ./
-COPY --from=builder /app/src ./src
+
+# Install only production dependencies
+RUN bun install --frozen-lockfile --production
+
+# Copy compiled JavaScript from builder
+COPY --from=builder /app/dist ./dist
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
@@ -49,7 +56,7 @@ ENV NODE_ENV=production
 
 # Health check (verify the binary exists and is executable)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD [ "test", "-x", "/app/src/index.ts" ]
+  CMD [ "test", "-x", "/app/dist/index.js" ]
 
 # Entry point
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
