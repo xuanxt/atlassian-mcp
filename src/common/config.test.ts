@@ -149,7 +149,11 @@ describe("Config Loading", () => {
     delete process.env.ATLASSIAN_EMAIL;
     delete process.env.ATLASSIAN_API_TOKEN;
 
-    expect(() => loadConfig({})).toThrow("Missing required configuration");
+    // Specify a non-existent config path to prevent loading from default locations
+    const nonExistentPath = join(testDir, "definitely-does-not-exist.json");
+    expect(() => loadConfig({ configPath: nonExistentPath })).toThrow(
+      "Missing required configuration"
+    );
 
     // Restore original environment
     process.env.ATLASSIAN_DOMAIN = originalEnv.ATLASSIAN_DOMAIN;

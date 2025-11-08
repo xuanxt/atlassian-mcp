@@ -296,7 +296,16 @@ export class JiraAPI {
    * Create a new Jira issue
    */
   async createIssue(params: CreateIssueParams): Promise<unknown> {
-    const { projectKey, issueType, summary, description, priority, labels = [], assignee, parentKey } = params;
+    const {
+      projectKey,
+      issueType,
+      summary,
+      description,
+      priority,
+      labels = [],
+      assignee,
+      parentKey,
+    } = params;
 
     const fields: {
       project: { key: string };

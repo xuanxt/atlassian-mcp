@@ -55,7 +55,8 @@ export const jiraTools: Tool[] = [
   },
   {
     name: "jira_create_issue",
-    description: "Create a new Jira issue with full hierarchy support. Supports Epic, Story, Task, Bug, and Sub-task with parent relationships.",
+    description:
+      "Create a new Jira issue with full hierarchy support. Supports Epic, Story, Task, Bug, and Sub-task with parent relationships.",
     inputSchema: {
       type: "object",
       properties: {
@@ -90,7 +91,8 @@ export const jiraTools: Tool[] = [
         },
         parentKey: {
           type: "string",
-          description: "Parent issue key for hierarchy: Story→Epic, Task→Story, Bug→Story/Epic, Sub-task→any parent (e.g., 'PROJ-123'). Required for Sub-task.",
+          description:
+            "Parent issue key for hierarchy: Story→Epic, Task→Story, Bug→Story/Epic, Sub-task→any parent (e.g., 'PROJ-123'). Required for Sub-task.",
         },
       },
       required: ["projectKey", "issueType", "summary"],

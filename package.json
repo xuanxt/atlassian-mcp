@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xuanxt/atlassian-mcp.git"
+    "url": "git+https://github.com/xuanxt/atlassian-mcp.git"
   },
   "bugs": {
     "url": "https://github.com/xuanxt/atlassian-mcp/issues"
@@ -32,7 +32,7 @@
     "release:major": "npm version major -m 'chore: release v%s'"
   },
   "bin": {
-    "atlassian-mcp": "./dist/index.js"
+    "atlassian-mcp": "dist/index.js"
   },
   "files": [
     "dist/**/*.js",

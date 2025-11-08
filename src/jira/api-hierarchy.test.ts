@@ -98,7 +98,8 @@ describe("Jira Hierarchy Integration Test", () => {
       projectKey: testData.projectKey!,
       issueType: "Epic",
       summary: "[TEST] 用户认证系统 - Hierarchy Test",
-      description: "完整的用户认证功能，包括登录、注册和密码重置。这是一个测试 Epic，用于验证层级关系功能。",
+      description:
+        "完整的用户认证功能，包括登录、注册和密码重置。这是一个测试 Epic，用于验证层级关系功能。",
       priority: "High",
       labels: ["test", "hierarchy", "authentication"],
     })) as any;
@@ -123,7 +124,7 @@ describe("Jira Hierarchy Integration Test", () => {
       description: "用户可以使用邮箱和密码登录系统，并获得 JWT token 进行后续认证。",
       priority: "High",
       labels: ["test", "login", "frontend"],
-      parentKey: testData.epicKey!,  // 🔑 Link to Epic
+      parentKey: testData.epicKey!, // 🔑 Link to Epic
     })) as any;
 
     testData.story1Key = story1.key;
@@ -145,7 +146,7 @@ describe("Jira Hierarchy Integration Test", () => {
       description: "新用户可以注册账号，系统将验证邮箱唯一性并发送验证邮件。",
       priority: "High",
       labels: ["test", "registration", "backend"],
-      parentKey: testData.epicKey!,  // 🔑 Link to Epic
+      parentKey: testData.epicKey!, // 🔑 Link to Epic
     })) as any;
 
     testData.story2Key = story2.key;
@@ -166,7 +167,7 @@ describe("Jira Hierarchy Integration Test", () => {
       description: "用户可以通过邮箱重置密码，系统发送重置链接有效期24小时。",
       priority: "Medium",
       labels: ["test", "password-reset", "backend"],
-      parentKey: testData.epicKey!,  // 🔑 Link to Epic
+      parentKey: testData.epicKey!, // 🔑 Link to Epic
     })) as any;
 
     testData.story3Key = story3.key;
@@ -179,7 +180,9 @@ describe("Jira Hierarchy Integration Test", () => {
 
   test("Step 5 - Create Sub-task 1 under Story 1 (parentKey REQUIRED)", async () => {
     console.log("\n📝 Creating Sub-task 1 with Story parent...");
-    console.log("   Note: Skipping Task creation - this project doesn't support Task→Story hierarchy");
+    console.log(
+      "   Note: Skipping Task creation - this project doesn't support Task→Story hierarchy"
+    );
 
     const subtask1 = (await jiraAPI.createIssue({
       projectKey: testData.projectKey!,
@@ -188,7 +191,7 @@ describe("Jira Hierarchy Integration Test", () => {
       description: "创建 POST /api/auth/login 端点，接收邮箱和密码，返回 JWT token。",
       priority: "High",
       labels: ["test", "api", "backend"],
-      parentKey: testData.story1Key!,  // 🔑 REQUIRED for Sub-task, link to Story
+      parentKey: testData.story1Key!, // 🔑 REQUIRED for Sub-task, link to Story
     })) as any;
 
     testData.subtask1Key = subtask1.key;
@@ -210,7 +213,7 @@ describe("Jira Hierarchy Integration Test", () => {
       description: "创建响应式登录表单，包含邮箱、密码输入框和记住我选项。",
       priority: "High",
       labels: ["test", "ui", "frontend"],
-      parentKey: testData.story1Key!,  // 🔑 REQUIRED for Sub-task
+      parentKey: testData.story1Key!, // 🔑 REQUIRED for Sub-task
     })) as any;
 
     testData.subtask2Key = subtask2.key;
@@ -231,7 +234,7 @@ describe("Jira Hierarchy Integration Test", () => {
       description: "创建 POST /api/auth/register 端点，验证邮箱唯一性并创建用户账号。",
       priority: "High",
       labels: ["test", "api", "backend"],
-      parentKey: testData.story2Key!,  // 🔑 REQUIRED for Sub-task
+      parentKey: testData.story2Key!, // 🔑 REQUIRED for Sub-task
     })) as any;
 
     testData.createdIssues.push(subtask3.key);
@@ -249,7 +252,7 @@ describe("Jira Hierarchy Integration Test", () => {
       issueKey: testData.story1Key!,
     })) as any;
 
-    console.log(`✓ Story 1 parent: ${story1Details.fields.parent?.key || 'none'}`);
+    console.log(`✓ Story 1 parent: ${story1Details.fields.parent?.key || "none"}`);
     expect(story1Details.fields.parent?.key).toBe(testData.epicKey);
 
     // Verify Sub-task 1 parent is Story 1
@@ -257,7 +260,7 @@ describe("Jira Hierarchy Integration Test", () => {
       issueKey: testData.subtask1Key!,
     })) as any;
 
-    console.log(`✓ Sub-task 1 parent: ${subtask1Details.fields.parent?.key || 'none'}`);
+    console.log(`✓ Sub-task 1 parent: ${subtask1Details.fields.parent?.key || "none"}`);
     expect(subtask1Details.fields.parent?.key).toBe(testData.story1Key);
 
     console.log(`✅ All hierarchy relationships verified!`);
@@ -273,7 +276,7 @@ describe("Jira Hierarchy Integration Test", () => {
 
     const sprint = (await jiraAPI.createSprint({
       boardId: testData.boardId,
-      name: `[TEST] Hierarchy ${Date.now()}`,  // Short name < 30 chars
+      name: `[TEST] Hierarchy ${Date.now()}`, // Short name < 30 chars
       goal: "测试层级关系功能",
     })) as any;
 
@@ -286,11 +289,7 @@ describe("Jira Hierarchy Integration Test", () => {
 
     await jiraAPI.moveIssuesToSprint({
       sprintId: testData.sprintId,
-      issues: [
-        testData.story1Key!,
-        testData.story2Key!,
-        testData.story3Key!,
-      ],
+      issues: [testData.story1Key!, testData.story2Key!, testData.story3Key!],
     });
 
     console.log(`✅ Assigned 3 stories to Sprint ${testData.sprintId}`);
@@ -299,24 +298,38 @@ describe("Jira Hierarchy Integration Test", () => {
   });
 
   test("Final - Display created hierarchy", async () => {
-    console.log("\n" + "=".repeat(80));
+    console.log(`\n${"=".repeat(80)}`);
     console.log("🎉 HIERARCHY TEST COMPLETED SUCCESSFULLY!");
     console.log("=".repeat(80));
     console.log("\n📊 Created Hierarchy Structure:\n");
     console.log(`Epic: ${testData.epicKey} "[TEST] 用户认证系统"`);
-    console.log(`  ├─ Story: ${testData.story1Key} "[TEST] 用户登录功能" (parent: ${testData.epicKey})`);
-    console.log(`  │   ├─ Sub-task: ${testData.subtask1Key} "[TEST] 实现登录 API" (parent: ${testData.story1Key})`);
-    console.log(`  │   └─ Sub-task: ${testData.subtask2Key} "[TEST] 设计登录 UI" (parent: ${testData.story1Key})`);
-    console.log(`  ├─ Story: ${testData.story2Key} "[TEST] 用户注册功能" (parent: ${testData.epicKey})`);
-    console.log(`  │   └─ Sub-task: ${testData.createdIssues[6] || 'unknown'} "[TEST] 设计注册 API" (parent: ${testData.story2Key})`);
-    console.log(`  └─ Story: ${testData.story3Key} "[TEST] 密码重置功能" (parent: ${testData.epicKey})`);
+    console.log(
+      `  ├─ Story: ${testData.story1Key} "[TEST] 用户登录功能" (parent: ${testData.epicKey})`
+    );
+    console.log(
+      `  │   ├─ Sub-task: ${testData.subtask1Key} "[TEST] 实现登录 API" (parent: ${testData.story1Key})`
+    );
+    console.log(
+      `  │   └─ Sub-task: ${testData.subtask2Key} "[TEST] 设计登录 UI" (parent: ${testData.story1Key})`
+    );
+    console.log(
+      `  ├─ Story: ${testData.story2Key} "[TEST] 用户注册功能" (parent: ${testData.epicKey})`
+    );
+    console.log(
+      `  │   └─ Sub-task: ${testData.createdIssues[6] || "unknown"} "[TEST] 设计注册 API" (parent: ${testData.story2Key})`
+    );
+    console.log(
+      `  └─ Story: ${testData.story3Key} "[TEST] 密码重置功能" (parent: ${testData.epicKey})`
+    );
 
     if (testData.sprintId) {
       console.log(`\n📅 Sprint: ID ${testData.sprintId}`);
-      console.log(`   Contains: ${testData.story1Key}, ${testData.story2Key}, ${testData.story3Key}`);
+      console.log(
+        `   Contains: ${testData.story1Key}, ${testData.story2Key}, ${testData.story3Key}`
+      );
     }
 
-    const domain = testConfig.domain.replace('https://', '').replace('http://', '');
+    const domain = testConfig.domain.replace("https://", "").replace("http://", "");
     console.log(`\n🔗 View in Jira:`);
     console.log(`   Epic: https://${domain}/browse/${testData.epicKey}`);
     console.log(`   Story 1: https://${domain}/browse/${testData.story1Key}`);
@@ -324,12 +337,12 @@ describe("Jira Hierarchy Integration Test", () => {
     console.log(`   Sub-task 2: https://${domain}/browse/${testData.subtask2Key}`);
 
     console.log(`\n📝 Total created issues: ${testData.createdIssues.length}`);
-    console.log(`   Issues: ${testData.createdIssues.join(', ')}`);
+    console.log(`   Issues: ${testData.createdIssues.join(", ")}`);
 
     console.log(`\n⚠️  Note: This project supports Epic → Story → Sub-task hierarchy`);
     console.log(`   Task → Story relationship is not supported in this project type`);
 
     console.log(`\n🗑️  Cleanup: To delete these test issues, visit Jira and delete manually`);
-    console.log("\n" + "=".repeat(80));
+    console.log(`\n${"=".repeat(80)}`);
   });
 });
