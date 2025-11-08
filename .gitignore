@@ -70,3 +70,6 @@ pids/
 *.pid
 *.seed
 *.pid.lock
+
+# LLM
+CLAUDE.md

@@ -24,6 +24,7 @@ export interface CreateIssueParams {
   priority?: string;
   labels?: string[];
   assignee?: string;
+  parentKey?: string;
 }
 
 export interface UpdateIssueParams {
@@ -33,6 +34,7 @@ export interface UpdateIssueParams {
   priority?: string;
   labels?: string[];
   assignee?: string;
+  parentKey?: string;
 }
 
 export interface DeleteIssueParams {
@@ -294,7 +296,7 @@ export class JiraAPI {
    * Create a new Jira issue
    */
   async createIssue(params: CreateIssueParams): Promise<unknown> {
-    const { projectKey, issueType, summary, description, priority, labels = [], assignee } = params;
+    const { projectKey, issueType, summary, description, priority, labels = [], assignee, parentKey } = params;
 
     const fields: {
       project: { key: string };
@@ -311,6 +313,7 @@ export class JiraAPI {
       priority?: { name: string };
       labels?: string[];
       assignee?: { accountId: string };
+      parent?: { key: string };
     } = {
       project: { key: projectKey },
       issuetype: { name: issueType },
@@ -347,6 +350,10 @@ export class JiraAPI {
       fields.assignee = { accountId: assignee };
     }
 
+    if (parentKey) {
+      fields.parent = { key: parentKey };
+    }
+
     return this.auth.request("/rest/api/3/issue", {
       method: "POST",
       body: JSON.stringify({ fields }),
@@ -357,7 +364,7 @@ export class JiraAPI {
    * Update an existing Jira issue
    */
   async updateIssue(params: UpdateIssueParams): Promise<void> {
-    const { issueKey, summary, description, priority, labels, assignee } = params;
+    const { issueKey, summary, description, priority, labels, assignee, parentKey } = params;
 
     const fields: {
       summary?: string;
@@ -372,6 +379,7 @@ export class JiraAPI {
       priority?: { name: string };
       labels?: string[];
       assignee?: { accountId: string };
+      parent?: { key: string };
     } = {};
 
     if (summary) {
@@ -406,6 +414,10 @@ export class JiraAPI {
 
     if (assignee) {
       fields.assignee = { accountId: assignee };
+    }
+
+    if (parentKey) {
+      fields.parent = { key: parentKey };
     }
 
     await this.auth.request(`/rest/api/3/issue/${issueKey}`, {

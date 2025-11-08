@@ -504,21 +504,19 @@ atlassian-mcp --domain your-domain.atlassian.net \
 #### Issue CRUD Operations
 
 **5. jira_create_issue**
-- **Description**: Create a new Jira issue
+- **Description**: Create a new Jira issue (supports all types including Sub-task)
 - **Parameters**:
   - `projectKey` (required, string): Target project key
   - `issueType` (required, string): Issue type (e.g., "Task", "Bug", "Story", "Epic", "Sub-task")
   - `summary` (required, string): Issue summary/title
   - `description` (optional, string): Detailed description
   - `priority` (optional, string): Priority level (e.g., "Highest", "High", "Medium", "Low", "Lowest")
-  - `assignee` (optional, string): Assignee account ID
   - `labels` (optional, string[]): Issue labels
-  - `dueDate` (optional, string): Due date in YYYY-MM-DD format
-  - `parentKey` (optional, string): Parent issue key (for subtasks)
-  - `components` (optional, array): Component IDs or names
-  - `fixVersions` (optional, array): Fix version IDs or names
+  - `assignee` (optional, string): Assignee account ID
+  - `parentKey` (optional, string): **Parent issue key - REQUIRED for creating Sub-task** (e.g., "PROJ-123")
 - **Returns**: Created issue with key and ID
 - **Supported Issue Types**: Task, Bug, Story, Epic, Sub-task, and custom types
+- **Note**: When `issueType` is "Sub-task", you MUST provide `parentKey` to specify the parent issue
 
 **6. jira_update_issue**
 - **Description**: Update an existing issue
@@ -527,10 +525,9 @@ atlassian-mcp --domain your-domain.atlassian.net \
   - `summary` (optional, string): New summary
   - `description` (optional, string): New description
   - `priority` (optional, string): New priority
-  - `assignee` (optional, string): New assignee account ID
   - `labels` (optional, string[]): New labels (replaces existing)
-  - `dueDate` (optional, string): New due date (YYYY-MM-DD)
-  - `customFields` (optional, object): Custom field updates (field ID as key)
+  - `assignee` (optional, string): New assignee account ID
+  - `parentKey` (optional, string): New parent issue key (for changing Sub-task parent)
 - **Returns**: Confirmation message
 - **Note**: Only specified fields are updated; others remain unchanged
 
@@ -541,6 +538,22 @@ atlassian-mcp --domain your-domain.atlassian.net \
   - `deleteSubtasks` (optional, boolean): Whether to delete subtasks (default: false)
 - **Returns**: Confirmation message
 - **Warning**: Permanent deletion, cannot be undone
+
+#### Issue Hierarchy & Parent Relationships
+
+**Using `parentKey` for Hierarchy**:
+
+Jira supports multi-level issue hierarchies using the `parentKey` parameter. Use `parentKey` when creating issues to establish parent-child relationships:
+
+- **Story → Epic**: Link stories to epics (optional)
+- **Task → Story/Epic**: Organize tasks under stories or epics (optional)
+- **Bug → Story/Epic**: Associate bugs with features (optional)
+- **Sub-task → Any parent**: Create sub-tasks under any issue type (required)
+
+**Example Hierarchy**:
+- PROJ-100 (Epic) → PROJ-101 (Story, `parentKey: "PROJ-100"`) → PROJ-102 (Sub-task, `parentKey: "PROJ-101"`)
+- `parentKey` is **required** for Sub-task, **optional** for Story/Task/Bug
+- Parent and child must be in same project
 
 #### Workflow & Transitions
 
@@ -860,6 +873,9 @@ atlassian-mcp --domain your-domain.atlassian.net \
 - **Returns**: Confirmation message
 - **Use Case**: Essential for sprint planning - add issues from backlog to sprint
 - **Note**: Issues must not be in another active sprint
+
+**Complete Workflow**: Create Sprint → Create hierarchy (Epic → Story → Task with `parentKey`) → Move to Sprint → Start Sprint
+- See hierarchy examples in tool #5 above for `parentKey` usage
 
 #### Epic Management
 

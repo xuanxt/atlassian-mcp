@@ -55,7 +55,7 @@ export const jiraTools: Tool[] = [
   },
   {
     name: "jira_create_issue",
-    description: "Create a new Jira issue. Requires project key, issue type, and summary.",
+    description: "Create a new Jira issue with full hierarchy support. Supports Epic, Story, Task, Bug, and Sub-task with parent relationships.",
     inputSchema: {
       type: "object",
       properties: {
@@ -65,7 +65,7 @@ export const jiraTools: Tool[] = [
         },
         issueType: {
           type: "string",
-          description: "The issue type name (e.g., 'Task', 'Bug', 'Story')",
+          description: "The issue type name (e.g., 'Task', 'Bug', 'Story', 'Epic', 'Sub-task')",
         },
         summary: {
           type: "string",
@@ -88,6 +88,10 @@ export const jiraTools: Tool[] = [
           type: "string",
           description: "Account ID of the assignee",
         },
+        parentKey: {
+          type: "string",
+          description: "Parent issue key for hierarchy: Story→Epic, Task→Story, Bug→Story/Epic, Sub-task→any parent (e.g., 'PROJ-123'). Required for Sub-task.",
+        },
       },
       required: ["projectKey", "issueType", "summary"],
     },
@@ -95,7 +99,7 @@ export const jiraTools: Tool[] = [
   {
     name: "jira_update_issue",
     description:
-      "Update an existing Jira issue. Can modify summary, description, status, and other fields.",
+      "Update an existing Jira issue. Can modify summary, description, parent, and other fields.",
     inputSchema: {
       type: "object",
       properties: {
@@ -123,6 +127,10 @@ export const jiraTools: Tool[] = [
         assignee: {
           type: "string",
           description: "Account ID of the new assignee",
+        },
+        parentKey: {
+          type: "string",
+          description: "New parent issue key (for changing Sub-task parent, e.g., 'PROJ-456')",
         },
       },
       required: ["issueKey"],
@@ -937,6 +945,7 @@ export async function handleJiraTool(
           priority: args.priority as string | undefined,
           labels: args.labels as string[] | undefined,
           assignee: args.assignee as string | undefined,
+          parentKey: args.parentKey as string | undefined,
         });
         result = JSON.stringify(data, null, 2);
         break;
@@ -950,6 +959,7 @@ export async function handleJiraTool(
           priority: args.priority as string | undefined,
           labels: args.labels as string[] | undefined,
           assignee: args.assignee as string | undefined,
+          parentKey: args.parentKey as string | undefined,
         });
         result = `Issue ${args.issueKey} updated successfully`;
         break;
