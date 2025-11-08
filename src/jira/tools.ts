@@ -94,6 +94,11 @@ export const jiraTools: Tool[] = [
           description:
             "Parent issue key for hierarchy: Story→Epic, Task→Story, Bug→Story/Epic, Sub-task→any parent (e.g., 'PROJ-123'). Required for Sub-task.",
         },
+        customFields: {
+          type: "object",
+          description:
+            "Custom fields as key-value pairs. Keys are field IDs (e.g., 'customfield_10011'). Use jira_search_fields to find field IDs. Examples: Epic color, Epic name, Story points, Sprint field.",
+        },
       },
       required: ["projectKey", "issueType", "summary"],
     },
@@ -133,6 +138,11 @@ export const jiraTools: Tool[] = [
         parentKey: {
           type: "string",
           description: "New parent issue key (for changing Sub-task parent, e.g., 'PROJ-456')",
+        },
+        customFields: {
+          type: "object",
+          description:
+            "Custom fields to update as key-value pairs. Keys are field IDs (e.g., 'customfield_10011'). Use jira_search_fields to find field IDs.",
         },
       },
       required: ["issueKey"],
@@ -948,6 +958,7 @@ export async function handleJiraTool(
           labels: args.labels as string[] | undefined,
           assignee: args.assignee as string | undefined,
           parentKey: args.parentKey as string | undefined,
+          customFields: args.customFields as Record<string, unknown> | undefined,
         });
         result = JSON.stringify(data, null, 2);
         break;
@@ -962,6 +973,7 @@ export async function handleJiraTool(
           labels: args.labels as string[] | undefined,
           assignee: args.assignee as string | undefined,
           parentKey: args.parentKey as string | undefined,
+          customFields: args.customFields as Record<string, unknown> | undefined,
         });
         result = `Issue ${args.issueKey} updated successfully`;
         break;

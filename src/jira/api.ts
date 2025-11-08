@@ -25,6 +25,7 @@ export interface CreateIssueParams {
   labels?: string[];
   assignee?: string;
   parentKey?: string;
+  customFields?: Record<string, unknown>;
 }
 
 export interface UpdateIssueParams {
@@ -35,6 +36,7 @@ export interface UpdateIssueParams {
   labels?: string[];
   assignee?: string;
   parentKey?: string;
+  customFields?: Record<string, unknown>;
 }
 
 export interface DeleteIssueParams {
@@ -305,6 +307,7 @@ export class JiraAPI {
       labels = [],
       assignee,
       parentKey,
+      customFields,
     } = params;
 
     const fields: {
@@ -323,6 +326,7 @@ export class JiraAPI {
       labels?: string[];
       assignee?: { accountId: string };
       parent?: { key: string };
+      [key: string]: unknown;
     } = {
       project: { key: projectKey },
       issuetype: { name: issueType },
@@ -363,6 +367,11 @@ export class JiraAPI {
       fields.parent = { key: parentKey };
     }
 
+    // Merge custom fields
+    if (customFields) {
+      Object.assign(fields, customFields);
+    }
+
     return this.auth.request("/rest/api/3/issue", {
       method: "POST",
       body: JSON.stringify({ fields }),
@@ -373,7 +382,8 @@ export class JiraAPI {
    * Update an existing Jira issue
    */
   async updateIssue(params: UpdateIssueParams): Promise<void> {
-    const { issueKey, summary, description, priority, labels, assignee, parentKey } = params;
+    const { issueKey, summary, description, priority, labels, assignee, parentKey, customFields } =
+      params;
 
     const fields: {
       summary?: string;
@@ -389,6 +399,7 @@ export class JiraAPI {
       labels?: string[];
       assignee?: { accountId: string };
       parent?: { key: string };
+      [key: string]: unknown;
     } = {};
 
     if (summary) {
@@ -427,6 +438,11 @@ export class JiraAPI {
 
     if (parentKey) {
       fields.parent = { key: parentKey };
+    }
+
+    // Merge custom fields
+    if (customFields) {
+      Object.assign(fields, customFields);
     }
 
     await this.auth.request(`/rest/api/3/issue/${issueKey}`, {

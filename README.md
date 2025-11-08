@@ -514,6 +514,7 @@ atlassian-mcp --domain your-domain.atlassian.net \
   - `labels` (optional, string[]): Issue labels
   - `assignee` (optional, string): Assignee account ID
   - `parentKey` (optional, string): **Parent issue key - REQUIRED for creating Sub-task** (e.g., "PROJ-123")
+  - `customFields` (optional, object): Custom fields as key-value pairs (see [Custom Fields](#custom-fields) below)
 - **Returns**: Created issue with key and ID
 - **Supported Issue Types**: Task, Bug, Story, Epic, Sub-task, and custom types
 - **Note**: When `issueType` is "Sub-task", you MUST provide `parentKey` to specify the parent issue
@@ -528,6 +529,7 @@ atlassian-mcp --domain your-domain.atlassian.net \
   - `labels` (optional, string[]): New labels (replaces existing)
   - `assignee` (optional, string): New assignee account ID
   - `parentKey` (optional, string): New parent issue key (for changing Sub-task parent)
+  - `customFields` (optional, object): Custom fields to update as key-value pairs (see [Custom Fields](#custom-fields) below)
 - **Returns**: Confirmation message
 - **Note**: Only specified fields are updated; others remain unchanged
 
@@ -554,6 +556,79 @@ Jira supports multi-level issue hierarchies using the `parentKey` parameter. Use
 - PROJ-100 (Epic) → PROJ-101 (Story, `parentKey: "PROJ-100"`) → PROJ-102 (Sub-task, `parentKey: "PROJ-101"`)
 - `parentKey` is **required** for Sub-task, **optional** for Story/Task/Bug
 - Parent and child must be in same project
+
+#### Custom Fields
+
+**Using `customFields` Parameter**:
+
+All issue types (Epic, Story, Task, Bug, Sub-task) support custom fields through the `customFields` parameter. Custom fields are passed as key-value pairs where keys are field IDs.
+
+**Finding Custom Field IDs**:
+
+Use the `jira_search_fields` tool to find custom field IDs in your Jira instance:
+```
+jira_search_fields with query: "Epic" or "Story Points" or "Sprint"
+```
+
+**Common Custom Fields**:
+
+- **Epic Color**: `customfield_10011` (varies by instance)
+  - Value: Color ID string (e.g., `"ghx-label-1"` to `"ghx-label-14"`)
+  - Available colors: blue, green, yellow, orange, red, purple, etc.
+
+- **Epic Name**: `customfield_10004` (varies by instance)
+  - Value: String (e.g., `"User Authentication System"`)
+
+- **Story Points**: `customfield_10016` (varies by instance)
+  - Value: Number (e.g., `5`, `8`, `13`)
+
+- **Sprint**: `customfield_10020` (varies by instance)
+  - Value: Sprint ID number (e.g., `123`)
+
+**Examples**:
+
+Creating an Epic with custom fields:
+```json
+{
+  "projectKey": "PROJ",
+  "issueType": "Epic",
+  "summary": "User Authentication System",
+  "customFields": {
+    "customfield_10011": "ghx-label-1",
+    "customfield_10004": "User Auth"
+  }
+}
+```
+
+Creating a Story with story points:
+```json
+{
+  "projectKey": "PROJ",
+  "issueType": "Story",
+  "summary": "Login functionality",
+  "parentKey": "PROJ-100",
+  "customFields": {
+    "customfield_10016": 5,
+    "customfield_10020": 123
+  }
+}
+```
+
+Updating custom fields:
+```json
+{
+  "issueKey": "PROJ-101",
+  "customFields": {
+    "customfield_10016": 8
+  }
+}
+```
+
+**Notes**:
+- Custom field IDs vary between Jira instances
+- Use `jira_search_fields` to find the correct field IDs for your instance
+- Field values must match the expected data type (string, number, object, array)
+- Invalid field IDs or values will result in API errors
 
 #### Workflow & Transitions
 
