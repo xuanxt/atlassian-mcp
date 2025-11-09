@@ -36,6 +36,11 @@ export class AtlassianAuth {
       throw new Error(`Atlassian API error (${response.status}): ${error}`);
     }
 
+    // Handle 204 No Content responses (e.g., from PUT/DELETE operations)
+    if (response.status === 204 || response.headers.get("content-length") === "0") {
+      return null;
+    }
+
     return response.json();
   }
 
