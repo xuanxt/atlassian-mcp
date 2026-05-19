@@ -23,6 +23,10 @@ export const jiraTools: Tool[] = [
         },
       },
     },
+    annotations: {
+      title: "List Projects",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_search_issues",
@@ -51,6 +55,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["jql"],
+    },
+    annotations: {
+      title: "Search Issues",
+      readOnlyHint: true,
     },
   },
   {
@@ -102,6 +110,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["projectKey", "issueType", "summary"],
     },
+    annotations: {
+      title: "Create Issue",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_update_issue",
@@ -147,6 +159,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["issueKey"],
     },
+    annotations: {
+      title: "Update Issue",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_delete_issue",
@@ -165,6 +181,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["issueKey"],
+    },
+    annotations: {
+      title: "Delete Issue",
+      destructiveHint: true,
     },
   },
   {
@@ -191,6 +211,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["issueKey"],
     },
+    annotations: {
+      title: "Get Issue",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_get_transitions",
@@ -205,6 +229,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["issueKey"],
+    },
+    annotations: {
+      title: "Get Transitions",
+      readOnlyHint: true,
     },
   },
   {
@@ -229,6 +257,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["issueKey", "transitionId"],
     },
+    annotations: {
+      title: "Transition Issue",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_add_comment",
@@ -246,6 +278,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["issueKey", "body"],
+    },
+    annotations: {
+      title: "Add Comment",
+      destructiveHint: true,
     },
   },
   {
@@ -268,6 +304,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["issueKey"],
+    },
+    annotations: {
+      title: "Get Worklog",
+      readOnlyHint: true,
     },
   },
   {
@@ -295,6 +335,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["issueKey", "timeSpentSeconds"],
     },
+    annotations: {
+      title: "Add Worklog",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_get_issue_link_types",
@@ -303,6 +347,10 @@ export const jiraTools: Tool[] = [
     inputSchema: {
       type: "object",
       properties: {},
+    },
+    annotations: {
+      title: "Get Issue Link Types",
+      readOnlyHint: true,
     },
   },
   {
@@ -331,6 +379,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["type", "inwardIssue", "outwardIssue"],
     },
+    annotations: {
+      title: "Create Issue Link",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_get_project_versions",
@@ -345,6 +397,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["projectKey"],
+    },
+    annotations: {
+      title: "Get Project Versions",
+      readOnlyHint: true,
     },
   },
   {
@@ -376,6 +432,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["projectKey", "name"],
     },
+    annotations: {
+      title: "Create Version",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_get_project_issues",
@@ -403,6 +463,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["projectKey"],
     },
+    annotations: {
+      title: "Get Project Issues",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_search_fields",
@@ -424,6 +488,10 @@ export const jiraTools: Tool[] = [
         },
       },
     },
+    annotations: {
+      title: "Search Fields",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_get_agile_boards",
@@ -444,6 +512,10 @@ export const jiraTools: Tool[] = [
           description: "Starting index for pagination (default: 0)",
         },
       },
+    },
+    annotations: {
+      title: "Get Agile Boards",
+      readOnlyHint: true,
     },
   },
   {
@@ -472,6 +544,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["name", "type", "projectKeyOrId"],
     },
+    annotations: {
+      title: "Create Board",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_update_board",
@@ -495,6 +571,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["boardId"],
     },
+    annotations: {
+      title: "Update Board",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_delete_board",
@@ -509,6 +589,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["boardId"],
+    },
+    annotations: {
+      title: "Delete Board",
+      destructiveHint: true,
     },
   },
   {
@@ -537,6 +621,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["boardId"],
     },
+    annotations: {
+      title: "Get Board Issues",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_get_sprints_from_board",
@@ -563,6 +651,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["boardId"],
+    },
+    annotations: {
+      title: "Get Sprints From Board",
+      readOnlyHint: true,
     },
   },
   {
@@ -591,6 +683,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["sprintId"],
     },
+    annotations: {
+      title: "Get Sprint Issues",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_batch_get_changelogs",
@@ -607,6 +703,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["issueKeys"],
     },
+    annotations: {
+      title: "Batch Get Changelogs",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_get_user_profile",
@@ -622,6 +722,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["accountId"],
     },
+    annotations: {
+      title: "Get User Profile",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_download_attachments",
@@ -636,6 +740,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["attachmentId"],
+    },
+    annotations: {
+      title: "Download Attachments",
+      readOnlyHint: true,
     },
   },
   {
@@ -665,6 +773,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["issues"],
     },
+    annotations: {
+      title: "Batch Create Issues",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_link_to_epic",
@@ -684,6 +796,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["epicKey", "issueKeys"],
+    },
+    annotations: {
+      title: "Link To Epic",
+      destructiveHint: true,
     },
   },
   {
@@ -715,6 +831,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["boardId", "name"],
+    },
+    annotations: {
+      title: "Create Sprint",
+      destructiveHint: true,
     },
   },
   {
@@ -751,6 +871,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["sprintId"],
     },
+    annotations: {
+      title: "Update Sprint",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_delete_sprint",
@@ -766,6 +890,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["sprintId"],
     },
+    annotations: {
+      title: "Delete Sprint",
+      destructiveHint: true,
+    },
   },
   {
     name: "jira_remove_issue_link",
@@ -779,6 +907,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["linkId"],
+    },
+    annotations: {
+      title: "Remove Issue Link",
+      destructiveHint: true,
     },
   },
   {
@@ -799,6 +931,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["sprintId", "issues"],
+    },
+    annotations: {
+      title: "Move Issues To Sprint",
+      destructiveHint: true,
     },
   },
   {
@@ -832,6 +968,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["boardId"],
     },
+    annotations: {
+      title: "Get Backlog Issues",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_rank_backlog_issues",
@@ -855,6 +995,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["issueKeys"],
+    },
+    annotations: {
+      title: "Rank Backlog Issues",
+      destructiveHint: true,
     },
   },
   {
@@ -884,6 +1028,10 @@ export const jiraTools: Tool[] = [
       },
       required: ["epicIdOrKey"],
     },
+    annotations: {
+      title: "Get Epic Issues",
+      readOnlyHint: true,
+    },
   },
   {
     name: "jira_batch_create_versions",
@@ -912,6 +1060,10 @@ export const jiraTools: Tool[] = [
         },
       },
       required: ["projectKey", "versions"],
+    },
+    annotations: {
+      title: "Batch Create Versions",
+      destructiveHint: true,
     },
   },
 ];

@@ -22,6 +22,10 @@ export const confluenceTools: Tool[] = [
         },
       },
     },
+    annotations: {
+      title: "List Spaces",
+      readOnlyHint: true,
+    },
   },
   {
     name: "confluence_list_pages",
@@ -47,6 +51,10 @@ export const confluenceTools: Tool[] = [
           enum: ["current", "archived", "trashed"],
         },
       },
+    },
+    annotations: {
+      title: "List Pages",
+      readOnlyHint: true,
     },
   },
   {
@@ -75,6 +83,10 @@ export const confluenceTools: Tool[] = [
       },
       required: ["spaceId", "title", "body"],
     },
+    annotations: {
+      title: "Create Page",
+      destructiveHint: true,
+    },
   },
   {
     name: "confluence_update_page",
@@ -100,6 +112,10 @@ export const confluenceTools: Tool[] = [
         },
       },
       required: ["pageId", "title", "body", "version"],
+    },
+    annotations: {
+      title: "Update Page",
+      destructiveHint: true,
     },
   },
   {
@@ -130,6 +146,10 @@ export const confluenceTools: Tool[] = [
       },
       required: ["cql"],
     },
+    annotations: {
+      title: "Search Content",
+      readOnlyHint: true,
+    },
   },
   {
     name: "confluence_get_page",
@@ -148,6 +168,10 @@ export const confluenceTools: Tool[] = [
         },
       },
       required: ["pageId"],
+    },
+    annotations: {
+      title: "Get Page",
+      readOnlyHint: true,
     },
   },
   {
@@ -175,6 +199,10 @@ export const confluenceTools: Tool[] = [
       },
       required: ["pageId"],
     },
+    annotations: {
+      title: "Get Page Children",
+      readOnlyHint: true,
+    },
   },
   {
     name: "confluence_get_comments",
@@ -200,6 +228,10 @@ export const confluenceTools: Tool[] = [
         },
       },
       required: ["pageId"],
+    },
+    annotations: {
+      title: "Get Comments",
+      readOnlyHint: true,
     },
   },
   {
@@ -231,6 +263,10 @@ export const confluenceTools: Tool[] = [
       },
       required: ["pageId"],
     },
+    annotations: {
+      title: "Get Labels",
+      readOnlyHint: true,
+    },
   },
   {
     name: "confluence_search_user",
@@ -255,6 +291,10 @@ export const confluenceTools: Tool[] = [
       },
       required: ["cql"],
     },
+    annotations: {
+      title: "Search User",
+      readOnlyHint: true,
+    },
   },
   {
     name: "confluence_delete_page",
@@ -274,6 +314,10 @@ export const confluenceTools: Tool[] = [
         },
       },
       required: ["pageId"],
+    },
+    annotations: {
+      title: "Delete Page",
+      destructiveHint: true,
     },
   },
   {
@@ -307,6 +351,10 @@ export const confluenceTools: Tool[] = [
       },
       required: ["pageId", "labels"],
     },
+    annotations: {
+      title: "Add Label",
+      destructiveHint: true,
+    },
   },
   {
     name: "confluence_add_comment",
@@ -329,6 +377,10 @@ export const confluenceTools: Tool[] = [
         },
       },
       required: ["pageId", "body"],
+    },
+    annotations: {
+      title: "Add Comment",
+      destructiveHint: true,
     },
   },
 ];
