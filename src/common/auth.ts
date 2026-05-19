@@ -7,11 +7,31 @@ import type { AtlassianConfig, RequestOptions } from "./types.js";
 export class AtlassianAuth {
   private readonly config: AtlassianConfig;
   private readonly baseUrl: string;
+  private readonly gatewayCloudId: string | null;
 
   constructor(config: AtlassianConfig) {
     this.config = config;
     // Support both full URLs (https://domain.com) and plain domains (domain.com)
     this.baseUrl = config.domain.startsWith("http") ? config.domain : `https://${config.domain}`;
+
+    // Check if using API gateway with cloudId (e.g., api.atlassian.com/ex/jira/xxx-xxx)
+    const gatewayMatch = this.baseUrl.match(/api\.atlassian\.com\/ex\/(?:jira|confluence)\/([a-f0-9-]+)/i);
+    this.gatewayCloudId = gatewayMatch ? gatewayMatch[1] : null;
+  }
+
+  /**
+   * Get the appropriate base URL for a given API path.
+   * When using the API gateway, automatically routes to the correct service
+   * (Jira vs Confluence) based on the path prefix.
+   */
+  private getBaseUrlForPath(path: string): string {
+    if (!this.gatewayCloudId) {
+      return this.baseUrl;
+    }
+    // Confluence paths start with /wiki/ or equal /wiki, everything else is Jira
+    const isConfluence = path.startsWith("/wiki/") || path === "/wiki";
+    const service = isConfluence ? "confluence" : "jira";
+    return `https://api.atlassian.com/ex/${service}/${this.gatewayCloudId}`;
   }
 
   /**
@@ -19,7 +39,7 @@ export class AtlassianAuth {
    */
   async request(path: string, options: RequestOptions = {}): Promise<unknown> {
     const auth = btoa(`${this.config.email}:${this.config.apiToken}`);
-    const url = `${this.baseUrl}${path}`;
+    const url = `${this.getBaseUrlForPath(path)}${path}`;
 
     const response = await fetch(url, {
       ...options,
